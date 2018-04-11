@@ -9,4 +9,4 @@ Generic base fields such as
   freight_width,
   freight_height
   
-Reference magento2-module-freightrandlcarrier for how to build out an api integration off of the base module.
+Reference internal 'EXAMPLE CARRIER' directory for how to build out an api integration off of the base module. This is a fully working integration with R&L Freight Shipping.
