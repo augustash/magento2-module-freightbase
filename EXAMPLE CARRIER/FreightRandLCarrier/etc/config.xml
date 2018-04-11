@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <augustash_freightrandlcarrier>
+            <setup>
+                <enabled>1</enabled>
+            </setup>
+        </augustash_freightrandlcarrier>
+
+        <carriers>
+            <freight>
+                <model>Augustash\FreightRandLCarrier\Model\Carrier</model>
+            </freight>
+        </carriers>
+    </default>
+</config>
