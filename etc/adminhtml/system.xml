@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2017 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <section id="shipping" translate="label" type="text" sortOrder="320" showInDefault="1" showInWebsite="1" showInStore="1">
+	      <group id="freight_base" translate="label" type="text" sortOrder="0" showInDefault="1" showInWebsite="1" showInStore="1">
+	        <label>Freight Common Settings</label>
+
+	    	<group id="advanced" translate="label" type="text" sortOrder="0" showInDefault="1" showInWebsite="1" showInStore="1">
+	        	<label>Advanced Settings</label>
+
+	        	<field id="generic_name" translate="label" type="text" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+		            <label>Generic Carrier Name</label>
+		            <comment><![CDATA[Display instead of actual carrier name for freight method.]]></comment>
+		        </field>
+	    	</group>
+
+	    	<group id="origin" translate="label" type="text" sortOrder="0" showInDefault="1" showInWebsite="1" showInStore="1">
+	        	<label>Origin Options</label>
+
+		        <field id="origin_liftgate" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="0" canRestore="1">
+		            <label>Origin Requires Liftgate</label>
+		            <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+		        </field>
+
+		        <field id="origin_residential" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="0" canRestore="1">
+		            <label>Origin Is Residential</label>
+		            <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+		        </field>
+	    	</group>	        
+	      </group>
+	    </section>
+    </system>
+</config>
