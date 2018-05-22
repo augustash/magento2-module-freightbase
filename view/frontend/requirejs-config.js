@@ -9,9 +9,6 @@ var config = {
         mixins: {
             'Magento_Checkout/js/action/select-shipping-address': {
                 'Augustash_FreightBase/js/action/select-shipping-address-mixin': true
-            },
-            'Magento_Checkout/js/model/shipping-rates-validation-rules': {
-                'Augustash_FreightBase/js/model/shipping-validation-rules-mixin': true
             }
         }
     }
