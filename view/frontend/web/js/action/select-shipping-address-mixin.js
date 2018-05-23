@@ -20,6 +20,7 @@ define([
             // Manipulate from array to comma seperated string, otherwise Magento errors
             // Other values are passed as arrays, so I have no idea why- just got it done.
             if(shippingAddress.customAttributes
+               && shippingAddress.customAttributes.delivery_type
                && shippingAddress.customAttributes.delivery_type.length == 0
             ) {
                 shippingAddress.customAttributes.delivery_type = null;
