@@ -1,30 +1,40 @@
 /**
-/**
  * Copyright © Magento, Inc. All rights reserved.
  * See COPYING.txt for license details.
  */
 
 define([
-    'Magento_Checkout/js/view/shipping'
+    'jquery',
+    'Magento_Checkout/js/model/quote'
 ],
-function(Shipping){
-    return Shipping.extend({
-        /**
-         * Check if freight items are in cart
-         */
-        isFreight: function () {
-            var isFreight = false,
-                rates = this.rates().length;
+function(
+    $,
+    quote
+    ){
+    'use strict';
 
-            // Must be done with variable because .each takes 'return true' as 'continue'
-            $.each(quote.getItems(), function (index, item) {
-                if (item.product.must_ship_freight == '1' && rates == 0) {
-                    isFreight = true;
+    return function (Shipping) {
+        return Shipping.extend({
+            initialize: function () {
+                this._super();
+            },
+            /**
+             * Check if freight items are in cart
+             */
+            isFreight: function () {
+                var isFreight = false,
+                    rates = this.rates().length;
 
-                    return false;
-                }
-            }, rates);
-            return isFreight;
-        }
-    });
+                // Must be done with variable because .each takes 'return true' as 'continue'
+                $.each(quote.getItems(), function (index, item) {
+                    if (item.product.must_ship_freight == '1' && rates == 0) {
+                        isFreight = true;
+
+                        return false;
+                    }
+                }, rates);
+                return isFreight;
+            }
+        });
+    }
 });

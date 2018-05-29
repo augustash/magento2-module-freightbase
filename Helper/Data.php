@@ -11,12 +11,21 @@ namespace Augustash\FreightBase\Helper;
 class Data extends \Magento\Framework\App\Helper\AbstractHelper
 {
     /**
+     * Customer Session
+     *
+     * @var session
+     */
+    protected $session;
+
+    /**
     * @param \Magento\Framework\App\Helper\Context
     */
     public function __construct(
-        \Magento\Framework\App\Helper\Context $context
+        \Magento\Framework\App\Helper\Context $context,
+        \Magento\Customer\Model\Session $session
     )
     {
+        $this->session = $session;
         parent::__construct($context);
     }
 
@@ -34,5 +43,9 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
             }
         }
         return false;
+    }
+
+    public function isCustomer() {
+        return $this->session->isLoggedIn();
     }
 }
