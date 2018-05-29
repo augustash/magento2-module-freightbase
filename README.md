@@ -20,5 +20,5 @@ Reference internal 'EXAMPLE CARRIER' directory for how to build out an api integ
 
 ```bash
 $ composer config repositories.augustash-freightbase vcs https://github.com/augustash/magento2-module-freightbase.git
-$ composer require augustash/module-freightbase:~1.0.4
+$ composer require augustash/module-freightbase:~[current-release-number]
 ```
