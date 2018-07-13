@@ -30,6 +30,13 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     }
 
     /**
+     * @return bool
+     */
+    public function isEnabled() {
+        return $this->scopeConfig->getValue('carriers/freight/active');
+    }
+
+    /**
      * @param \Magento\Quote\Model\Quote\Address\RateRequest
      * @return bool
      */
