@@ -1,10 +1,17 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">  
-	<type name="Magento\Shipping\Model\Rate\Result">
-        <plugin name="Augustash_FreightRandLCarrier" type="\Augustash\FreightRandLCarrier\Plugin\FreightOnly" />
+<?xml version="1.0"?>
+<!--
+/**
+ * @category Ash FreightRandLCarrier
+ * @package Ash_FreightRandLCarrier
+ * @copyright Copyright (c) 2017 August Ash
+ * @author August Ash Team <changes@augustash.com>
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <type name="Magento\Shipping\Model\Rate\Result">
+        <plugin name="Augustash_FreightRandLCarrier" type="Augustash\FreightRandLCarrier\Plugin\FreightOnly" />
     </type>
-
     <type name="Magento\Checkout\Block\Checkout\LayoutProcessor">
-        <plugin name="Augustash_FreightRandLCarrier" type="\Augustash\FreightRandLCarrier\Plugin\CheckoutFields" />
+        <plugin name="Augustash_FreightRandLCarrier" type="Augustash\FreightRandLCarrier\Plugin\CheckoutFields" />
     </type>
 </config>

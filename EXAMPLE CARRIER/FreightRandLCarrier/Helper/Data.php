@@ -1,11 +1,11 @@
 <?php
+
 /**
  * @category Augustash FreightRandLCarrier
  * @package Augustash_FreightRandLCarrier
  * @copyright Copyright (c) 2017 Augustash
  * @author Augustash Team <changes@augustash.com>
  */
-
 namespace Augustash\FreightRandLCarrier\Helper;
 
 class Data extends \Magento\Framework\App\Helper\AbstractHelper
@@ -23,38 +23,37 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     const ORIGIN_RESIDENTIAL = 'shipping/freight_base/origin/origin_residential';
 
     /**
-    * @var \Magento\Directory\Api\CountryInformationAcquirerInterface
-    */
+     * @var \Magento\Directory\Api\CountryInformationAcquirerInterface
+     */
     protected $countryInfo;
 
     /**
-    * @var \Magento\Framework\App\Config\ScopeConfigInterface
-    */
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface
+     */
     protected $scopeConfig;
 
     /**
-    * @var \Magento\Checkout\Model\Session
-    */
+     * @var \Magento\Checkout\Model\Session
+     */
     protected $checkoutSession;
 
     /**
-    * @var float
-    */
+     * @var float
+     */
     protected $fees = 0;
 
     /**
-    * @param \Magento\Framework\App\Helper\Context,
-    * @param \Magento\Directory\Api\CountryInformationAcquirerInterface,
-    * @param \Magento\Framework\App\Config\ScopeConfigInterface,
-    * @param \Magento\Checkout\Model\Session
-    */
+     * @param \Magento\Framework\App\Helper\Context,
+     * @param \Magento\Directory\Api\CountryInformationAcquirerInterface,
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface,
+     * @param \Magento\Checkout\Model\Session
+     */
     public function __construct(
         \Magento\Framework\App\Helper\Context $context,
         \Magento\Directory\Api\CountryInformationAcquirerInterface $countryInfo,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Checkout\Model\Session $checkoutSession
-    )
-    {
+    ) {
         $this->countryInfo = $countryInfo;
         $this->scopeConfig = $scopeConfig;
         $this->checkoutSession = $checkoutSession;
@@ -68,20 +67,20 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         if ($request->getLimitMethod()) {
             $requestObject->setService($request->getLimitMethod());
         } else {
-          $requestObject->setService('ALL');
+            $requestObject->setService('ALL');
         }
 
         // Limiting to specific R&L shipping methods? Unsure at this point.
         //$requestObject->setAllowedMethods($this->scopeConfig->getValue('allowed_methods'));
 
         // Charge liftgate only
-        if($request->getChargeLiftgateOnly()) {
-            $requestObject->setChargeLiftgateOnly($request->getChargeLiftgateOnly());    
+        if ($request->getChargeLiftgateOnly()) {
+            $requestObject->setChargeLiftgateOnly($request->getChargeLiftgateOnly());
         }
 
         /**
-        * Shipping Origin Definitions
-        */
+         * Shipping Origin Definitions
+         */
 
         // Origin and destination country two letter codes
         // Used for looking up directory object information
@@ -100,7 +99,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         // Set state/region code - example: 'CA' is code for California
         if ($request->getRegionId()) {
             $originRegion = $request->getRegionId();
-            
+
             if (is_numeric($originRegion)) {
                 // Fetch available states/regions within country
                 $codes = $this->countryInfo->getCountryInfo($originCountry)->getAvailableRegions();
@@ -123,11 +122,10 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
             $requestObject->setOrigCity($request->getCity());
         }
 
-        
         /**
-        * Shipping Destination Definitions
-        */
-       
+         * Shipping Destination Definitions
+         */
+
         // Destination country id
         if ($request->getDestCountryId()) {
             $destCountry = $request->getDestCountryId();
@@ -154,12 +152,12 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         );
 
         // Destination region code
-        if($request->getDestRegionCode()) {
+        if ($request->getDestRegionCode()) {
             $requestObject->setDestRegionCode($request->getDestRegionCode());
         }
 
         // Destination city
-        if($request->getDestCity()) {
+        if ($request->getDestCity()) {
             $requestObject->setDestCity($request->getDestCity());
         }
 
@@ -169,36 +167,36 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         }
 
         // Package value
-        if($request->getPackageValue()) {
+        if ($request->getPackageValue()) {
             $requestObject->setValue($request->getPackageValue());
         }
-        
+
         // Order base subtotal with tax
-        if($request->getBaseSubtotalInclTax()) {
+        if ($request->getBaseSubtotalInclTax()) {
             $requestObject->setBaseSubtotalInclTax($request->getBaseSubtotalInclTax());
         }
 
         // Package value with discount
-        if($request->getPackageValueWithDiscount()) {
+        if ($request->getPackageValueWithDiscount()) {
             $requestObject->setValueWithDiscount($request->getPackageValueWithDiscount());
         }
 
         /**
-        * Configuration values used for shipping fee calculations
-        */
+         * Configuration values used for shipping fee calculations
+         */
 
         /**
-        * Flat fees
-        */
+         * Flat fees
+         */
 
         // Admin level accessories
         $accessories = [];
 
-        if($this->scopeConfig->getValue(self::ORIGIN_LIFTGATE)) {
+        if ($this->scopeConfig->getValue(self::ORIGIN_LIFTGATE)) {
             $accessories[] = 'OriginLiftgate';
         }
 
-        if($this->scopeConfig->getValue(self::ORIGIN_RESIDENTIAL)) {
+        if ($this->scopeConfig->getValue(self::ORIGIN_RESIDENTIAL)) {
             $accessories[] = 'ResidentialPickup';
         }
 
@@ -210,33 +208,33 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     /**
      * Add freight product line items
      * Meaning items that must ship freight only are requested from api
-     * 
+     *
      * @param $quoteRequest
      * @param $request
      * @return array [items, declaredvalue]
      */
     public function addApiRequestBase()
-    { 
+    {
         $items = $this->checkoutSession->getQuote()->getAllItems();
         $wrapper = [];
         $wrapper['Items'] = [];
         $wrapper['DeclaredValue'] = 0;
 
-        foreach($items as $item => $data) {
+        foreach ($items as $item => $data) {
             $product = $data->getProduct();
 
             // Only add to api request if product is freight shippable
             // Class is required in order to ship freight
-            // 
+            //
             // ***
             // SPECS MISSING IN API REQUIREMENTS:
             // Weight MUST be greater than 1, or no results will be returned!
             // * Their system does not apply a default weight
             // ***
-            if($product->getFreightClass()) {
+            if ($product->getFreightClass()) {
                 $wrapper['Items'][$item] = [
                     'Class' => $product->getFreightClass(),
-                    'Weight' => empty($product->getWeight()) ? 1 : $product->getWeight(),
+                    'Weight' => empty($product->getWeight()) || $product->getWeight() < 1 ? 1 : $product->getWeight(),
                     'Width' => empty($product->getFreightWidth()) ? 0 : $product->getFreightWidth(),
                     'Height' => empty($product->getFreightHeight()) ? 0 : $product->getFreightHeight(),
                     'Length' => empty($product->getFreightLength()) ? 0 : $product->getFreightLength()
@@ -270,33 +268,30 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         //  - is_over_dimension
         $productAccessories = [];
 
-        // This is where I'm at, fetching and passing product level freight shipping attributes
-        // 
-        // loop over get all items to capture values
-        foreach($request->getAllItems() as $items) {
+        foreach ($request->getAllItems() as $items) {
             $product = $items->getProduct();
 
             // All below values are api specific
             // Do not change capitalization
             // http://api.rlcarriers.com/1.0.1/RateQuoteService.asmx?WSDL
-            if($product->getIsHazmat() == 1) {
-                array_push($productAccessories, 'Hazmat');
+            if ($product->getIsHazmat() == 1) {
+                $productAccessories[] = 'Hazmat';
             }
 
-            if($product->getIsFreezable() == 1) {
-                array_push($productAccessories, 'Freezable');
+            if ($product->getIsFreezable() == 1) {
+                $productAccessories[] = 'Freezable';
             }
 
-            if($product->getIsNotFreezable() == 1) {
-                array_push($productAccessories, 'KeepFromFreezing');   
+            if ($product->getIsNotFreezable() == 1) {
+                $productAccessories[] = 'KeepFromFreezing';
             }
 
-            if($product->getIsSortSegregate() == 1) {
-                array_push($productAccessories, 'SortAndSegregate');
+            if ($product->getIsSortSegregate() == 1) {
+                $productAccessories[] = 'SortAndSegregate';
             }
 
-            if($product->getIsOverDimensions() == 1) {
-                array_push($productAccessories, 'OverDimension');
+            if ($product->getIsOverDimensions() == 1) {
+                $productAccessories[] = 'OverDimension';
             }
         }
 
@@ -313,12 +308,15 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         //  - LimitedAccessDelivery
         $checkoutAccessories = $quoteRequest->getAddressAccessories();
 
-        if($checkoutAccessories['delivery_type'] != null) {
-            $checkoutAccessories = explode(' ', $checkoutAccessories['delivery_type']);
-
-            // Merge configuration/product/checkout/ arrays for submission to api
-            $accSettings = array_merge($accSettings, $productAccessories, $checkoutAccessories);
+        // Custom values are a string by default in system
+        // If the value is not an array at this point, we know its empty.
+        // Reassign to empty array for merge.
+        if (!is_array($checkoutAccessories)) {
+            $checkoutAccessories = []; 
         }
+
+        // Merge configuration/product/checkout/ arrays for submission to api
+        $accSettings = array_merge($accSettings, $productAccessories, $checkoutAccessories);
 
         return $accSettings;
     }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @category Ash FreightRandLCarrier
  * @package Ash_FreightRandLCarrier

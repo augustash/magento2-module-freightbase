@@ -1,102 +1,80 @@
 <?xml version="1.0"?>
 <!--
 /**
- * Copyright © 2017 Magento. All rights reserved.
- * See COPYING.txt for license details.
+ * @category Ash FreightRandLCarrier
+ * @package Ash_FreightRandLCarrier
+ * @copyright Copyright (c) 2017 August Ash
+ * @author August Ash Team <changes@augustash.com>
  */
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
     <system>
-       <section id="augustash_freightrandlcarrier" translate="label" type="text" sortOrder="0" showInDefault="1" showInWebsite="1" showInStore="0">
-           <class>separator-top</class>
-           <label><![CDATA[Freight R&L Carrier]]></label>
-           <tab>augustash</tab>
-           <resource>Augustash_FreightRandLCarrier::config</resource>
-           <group id="general" translate="label" type="text" sortOrder="0" showInDefault="1" showInWebsite="1" showInStore="1">
-               <label><![CDATA[Freight Shipping General Settings]]></label>
-               <field id="enabled" translate="label comment" type="select" sortOrder="0" showInDefault="1" showInWebsite="1" showInStore="1">
-                   <label><![CDATA[Enable Extension]]></label>
-                   <comment><![CDATA[Enable or disable module.]]></comment>
-                   <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
-               </field>
+        <section id="carriers" translate="label" type="text" sortOrder="0" showInDefault="1" showInWebsite="1" showInStore="0">
+            <group id="freight" translate="label" type="text" sortOrder="0" showInDefault="1" showInWebsite="1" showInStore="0">
+                <label>R&amp;L Freight</label>
+                <field id="active" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="0" canRestore="1">
+                    <label>Enabled</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="title" translate="label" type="text" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="0" canRestore="1">
+                    <label>Title</label>
+                </field>
+                <field id="name" translate="label" type="text" sortOrder="3" showInDefault="1" showInWebsite="1" showInStore="0" canRestore="1">
+                    <label>Method Name</label>
+                </field>
+                <field id="allowed_methods" translate="label" type="multiselect" sortOrder="4" showInDefault="1" showInWebsite="1" showInStore="0" canRestore="1">
+                    <label>Allowed Methods</label>
+                    <source_model>Augustash\FreightRandLCarrier\Model\Config\Source\Method</source_model>
+                    <can_be_empty>1</can_be_empty>
+                </field>
+                <field id="handling_type" translate="label" type="select" sortOrder="4" showInDefault="1" showInWebsite="1" showInStore="0" canRestore="1">
+                    <label>Calculate Handling Fee</label>
+                    <source_model>Magento\Shipping\Model\Source\HandlingType</source_model>
+                </field>
+                <field id="handling_fee" translate="label" type="text" sortOrder="5" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Handling Fee Amount</label>
+                    <validate>validate-number validate-zero-or-greater</validate>
+                </field>
+                <field id="sort_order" translate="label" type="text" sortOrder="6" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Sort Order</label>
+                </field>
+                <field id="sallowspecific" translate="label" type="select" sortOrder="7" showInDefault="1" showInWebsite="1" showInStore="0" canRestore="1">
+                    <label>Ship to Applicable Countries</label>
+                    <frontend_class>shipping-applicable-country</frontend_class>
+                    <source_model>Magento\Shipping\Model\Config\Source\Allspecificcountries</source_model>
+                </field>
+                <field id="specificcountry" translate="label" type="multiselect" sortOrder="8" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Ship to Specific Countries</label>
+                    <source_model>Magento\Directory\Model\Config\Source\Country</source_model>
+                    <can_be_empty>1</can_be_empty>
+                </field>
+                <field id="showmethod" translate="label" type="select" sortOrder="9" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Show Method if Not Applicable</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <frontend_class>shipping-skip-hide</frontend_class>
+                </field>
+                <field id="specificerrmsg" translate="label" type="textarea" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="0" canRestore="1">
+                    <label>Displayed Error Message</label>
+                </field>
+
+                <group id="credentials_group" translate="label" type="select" sortOrder="11" showInDefault="1" showInWebsite="1" showInStore="0" canRestore="1">
+                    <label>Credentials</label>
+                    <field id="serial" translate="label" type="obscure" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="0" canRestore="1">
+                        <label>Serial Key</label>
+                        <backend_model>Magento\Config\Model\Config\Backend\Encrypted</backend_model>
+                    </field>
+                    <field id="api_key" translate="label" type="obscure" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="0" canRestore="1">
+                        <label>API Key</label>
+                        <backend_model>Magento\Config\Model\Config\Backend\Encrypted</backend_model>
+                    </field>
+                </group>
+                <group id="freight_group" translate="label" type="select" sortOrder="12" showInDefault="1" showInWebsite="1" showInStore="0" canRestore="1">
+                    <label>Freight Settings</label>
+                    <field id="max_cost" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="0" canRestore="1">
+                        <label>Maximum Shipping Cost</label>
+                    </field>
+                </group>
             </group>
-        </section>
-
-        <section id="carriers" translate="label" type="text" sortOrder="0" showInDefault="1" showInWebsite="1" showInStore="1">
-        	<group id="freight" translate="label" type="text" sortOrder="0" showInDefault="1" showInWebsite="1" showInStore="1">
-		        <label>AugustAsh R&amp;L Freight Shipping</label>
-
-		        <field id="active" translate="label" type="select" sortOrder="0" showInDefault="1" showInWebsite="1" showInStore="0" canRestore="1">
-		            <label>Enabled</label>
-		            <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
-		        </field>
-
-		        <field id="title" translate="label" type="text" sortOrder="0" showInDefault="1" showInWebsite="1" showInStore="0" canRestore="1">
-		            <label>Title</label>
-		        </field>
-
-	        	<field id="name" translate="label" type="text" sortOrder="0" showInDefault="1" showInWebsite="1" showInStore="0" canRestore="1">
-		            <label>Method Name</label>
-		        </field>
-
-		        <field id="handling_type" translate="label" type="select" sortOrder="0" showInDefault="1" showInWebsite="1" showInStore="0" canRestore="1">
-                <label>Calculate Handling Fee</label>
-                <source_model>Magento\Shipping\Model\Source\HandlingType</source_model>
-            </field>
-
-            <field id="handling_fee" translate="label" type="text" sortOrder="0" showInDefault="1" showInWebsite="1" showInStore="0" >
-                <label>Handling Fee</label>
-                <validate>validate-number validate-zero-or-greater</validate>
-            </field>
-
-            <field id="sort_order" translate="label" type="text" sortOrder="0" showInDefault="1" showInWebsite="1" showInStore="0">
-                <label>Sort Order</label>
-            </field>
-
-            <field id="sallowspecific" translate="label" type="select" sortOrder="0" showInDefault="1" showInWebsite="1" showInStore="0" canRestore="1">
-                <label>Ship to Applicable Countries</label>
-                <frontend_class>shipping-applicable-country</frontend_class>
-                <source_model>Magento\Shipping\Model\Config\Source\Allspecificcountries</source_model>
-            </field>
-
-            <field id="specificcountry" translate="label" type="multiselect" sortOrder="0" showInDefault="1" showInWebsite="1" showInStore="0">
-                <label>Ship to Specific Countries</label>
-                <source_model>Magento\Directory\Model\Config\Source\Country</source_model>
-                <can_be_empty>1</can_be_empty>
-            </field>
-
-            <field id="showmethod" translate="label" type="select" sortOrder="0" showInDefault="1" showInWebsite="1" showInStore="0">
-                <label>Show Method if Not Applicable</label>
-                <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
-                <frontend_class>shipping-skip-hide</frontend_class>
-            </field>
-
-            <field id="specificerrmsg" translate="label" type="textarea" sortOrder="0" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
-                <label>Displayed Error Message</label>
-            </field>
-
-		        <group id="credentials_group" translate="label" type="select" sortOrder="0" showInDefault="1" showInWebsite="1" showInStore="0" canRestore="1">
-		        	<label>Credentials</label>
-
-		            <field id="serial" translate="label" type="obscure" sortOrder="0" showInDefault="1" showInWebsite="1" showInStore="0" canRestore="1">
-		            	<label>Serial Key</label>
-		            	<backend_model>Magento\Config\Model\Config\Backend\Encrypted</backend_model>
-		        	</field>
-
-		        	<field id="api_key" translate="label" type="obscure" sortOrder="0" showInDefault="1" showInWebsite="1" showInStore="0" canRestore="1">
-			            <label>Api Key</label>
-			            <backend_model>Magento\Config\Model\Config\Backend\Encrypted</backend_model>
-			        </field>
-		        </group>
-
-		        <group id="freight_group" translate="label" type="select" sortOrder="0" showInDefault="1" showInWebsite="1" showInStore="0" canRestore="1">
-		        	<label>Freight Settings</label>
-
-			        <field id="max_cost" translate="label" type="text" sortOrder="0" showInDefault="1" showInWebsite="1" showInStore="0" canRestore="1">
-			            <label>Maximum shipping cost</label>
-			        </field>
-		    	</group>
-    		</group>
         </section>
     </system>
 </config>
